@@ -3,7 +3,7 @@ const proxyIPs = ['http://proxy1.example.com', 'http://proxy2.example.com', 'htt
 let currentProxyIndex = 0;
 
 // Middleware function to rotate through proxy IP addresses and log the current IP
-const rotateProxy = (req, res, next) => {
+export const rotateProxy = (req, res, next) => {
     // Log the current proxy IP address
     console.log(`Current Proxy IP: ${proxyIPs[currentProxyIndex]}`);
   
