@@ -5,7 +5,10 @@ import dotenv from "dotenv";
 import path from "path"
 import authRoutes from "./routes/auth.js";
 import spotifyRoutes from "./routes/spotify.js";
+import bodyParser from "body-parser";
+
 import { fileURLToPath } from "url";
+
 // import SpotifyWebApi from 'spotify-web-api-node';
 // import { createProxyMiddleware } from 'http-proxy-middleware';
 
@@ -60,7 +63,26 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 dotenv.config();
 
-var app = express();
+
+const app = express();
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+
+
+app.use(bodyParser.json());
+// Configure body-parser and Multer for handling form data and file uploads
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(multer({ dest: 'uploads/' }).single('profilePicture'));
+
+
+
+
+
+
 
 app.use("/auth", authRoutes);
 app.use("/", spotifyRoutes);

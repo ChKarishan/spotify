@@ -11,6 +11,7 @@ const router = express.Router();
 
 router.get('/login', rotateProxy, login);
 router.get('/callback', callback);
+
 // router.get('/refresh_token', rotateProxy, refresh_token_func); //changing required
 router.get('/getDetailData', verifyToken, getDetailData);  //done
 router.get('/getUserPlaylists', verifyToken, getUserPlaylists); //done

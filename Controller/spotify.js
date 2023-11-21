@@ -189,8 +189,12 @@ const scopes = [
       });
     };
 
-    export async function addTracksToPlaylist(req, res){
-    console.log(req.body);
+
+
+
+   export async function addTracksToPlaylist(req, res){
+
+    console.log(req);
     console.log(access_token);
     spotifyApi.setAccessToken(access_token);
     (async () => {
@@ -199,13 +203,8 @@ const scopes = [
         const trackInfo = await spotifyApi.getTrack(trackId);
         const trackUri = trackInfo.body.uri;
 
-        spotifyApi.addTracksToPlaylist(playlistId, [trackUri])
-        .then((data) => {
-          res.json('Track added to playlist:', data);
-        })
-        .catch((error) => {
-          res.status(500).json('Error adding track to playlist:', error);
-        });
+       const data = spotifyApi.addTracksToPlaylist(playlistId, [trackUri]);
+       res.json(data);
 
     })().catch(e => {
 
@@ -213,6 +212,10 @@ const scopes = [
 
       });
     };
+
+
+
+
 
     export async function play(req, res){
     const { trackId } = req.params;

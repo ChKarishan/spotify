@@ -8,6 +8,8 @@ import bcrypt from "bcrypt";
 export const login = async (req, res) => {
     try{
 
+      console.log(req.body);
+
     const { email, password } = req.body;
         // Find the user by their email (assumes unique email addresses)
       const user = await User.findOne({ email });
