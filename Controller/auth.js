@@ -23,7 +23,7 @@ export const login = async (req, res) => {
       const token = jwt.sign({id: user._id}, process.env.JWT_SECRET);
 
       res.cookie('token', token);
-      return res.json({ status: 'success', token , first_name : "bilal"});
+      return res.json({ status: 'success', token });
 
 
     } catch (error) {

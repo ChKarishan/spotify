@@ -16,6 +16,6 @@ router.get('/getDetailData', verifyToken, getDetailData);  //done
 router.get('/getUserPlaylists', verifyToken, getUserPlaylists); //done
 router.get('/getPlaylistTracks/:id', verifyToken, getPlaylistTracks); //done
 router.post('/addTracksToPlaylist', addTracksToPlaylist); //req.body undefined aa raha hai
-router.get('/play/:trackId', verifyToken, play);
+router.get('/play/:trackId', verifyToken, play); //need premium
 
 export default router;
