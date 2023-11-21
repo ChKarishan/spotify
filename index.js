@@ -3,7 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import dotenv from "dotenv";
 import path from "path"
-import authRoutes from "./routes/auth.js";
+import authRoutes from './routes/auth.js'
 import spotifyRoutes from "./routes/spotify.js";
 import bodyParser from "body-parser";
 
