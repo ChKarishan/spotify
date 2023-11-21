@@ -28,10 +28,13 @@ const scopes = [
     'user-follow-modify'
   ];
 
+  var client_id = '864ee56edc404d7a830dbe880b1370ce';
+  var client_secret = '5437bbfcf66147e6b1a453bf75f77833';
+
   var spotifyApi = new SpotifyWebApi({
-    clientId: process.env.clientId,
-    clientSecret: process.env.clientSecret,
-    redirectUri: process.env.redirect_uri
+    clientId: client_id,
+    clientSecret: client_secret,
+    redirectUri: 'http://localhost:8888/callback'
   });
 
 
@@ -86,33 +89,33 @@ const scopes = [
     };
 
 
-    export async function refresh_token(req, res){
+    // export async function refresh_token_func(req, res){
 
-    refresh_token = req.query.refresh_token;
-    var authOptions = {
-      url: 'https://accounts.spotify.com/api/token',
-      headers: { 
-        'content-type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64')) 
-      },
-      form: {
-        grant_type: 'refresh_token',
-        refresh_token: refresh_token
-      },
-      json: true
-    };
+    // refresh_token = req.query.refresh_token;
+    // var authOptions = {
+    //   url: 'https://accounts.spotify.com/api/token',
+    //   headers: { 
+    //     'content-type': 'application/x-www-form-urlencoded',
+    //     'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64')) 
+    //   },
+    //   form: {
+    //     grant_type: 'refresh_token',
+    //     refresh_token: refresh_token
+    //   },
+    //   json: true
+    // };
   
-    request.post(authOptions, function(error, response, body) {
-      if (!error && response.statusCode === 200) {
-          access_token = body.access_token,
-          refresh_token = body.refresh_token;
-        res.send({
-          'access_token': access_token,
-          'refresh_token': refresh_token
-        });
-      }
-    });
-    };
+    // request.post(authOptions, function(error, response, body) {
+    //   if (!error && response.statusCode === 200) {
+    //       access_token = body.access_token,
+    //       refresh_token = body.refresh_token;
+    //     res.send({
+    //       'access_token': access_token,
+    //       'refresh_token': refresh_token
+    //     });
+    //   }
+    // });
+    // };
 
     export async function getDetailData(req, res){
     console.log(access_token);
@@ -128,6 +131,7 @@ const scopes = [
 
     
     export async function getUserPlaylists(req, res){
+    me = await spotifyApi.getMe();
     const userName = me.body.id;
     console.log(userName);
     console.log(access_token);
@@ -141,7 +145,7 @@ const scopes = [
             console.log(playlist.name + " " + playlist.id)
             ret_playlist = ret_playlist + playlist.name + " " + playlist.id + "........";
         }
-        playlists = data.body.items;
+        // playlists = data.body.items;
         res.json(ret_playlist);
 
       })().catch(e => {
@@ -189,8 +193,8 @@ const scopes = [
     console.log(access_token);
     spotifyApi.setAccessToken(access_token);
     (async () => {
-        const playlistId = req.body.playlistId;
-        const trackId = req.body.trackId;
+        console.log(req.body);
+        const {playlistId, trackId} = req.body;
         const trackInfo = await spotifyApi.getTrack(trackId);
         const trackUri = trackInfo.body.uri;
 

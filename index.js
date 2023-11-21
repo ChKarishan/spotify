@@ -63,7 +63,7 @@ dotenv.config();
 var app = express();
 
 app.use("/auth", authRoutes);
-app.use("/spotify", spotifyRoutes);
+app.use("/", spotifyRoutes);
 
 // Use the rotateProxy middleware for all routes
 // app.use(rotateProxy);
@@ -341,5 +341,5 @@ app.use(express.static(__dirname + '/public'))
 //     }
 //   });
 
-console.log(`Listening on : ${PORT}`);
+console.log(`Listening on : ${process.env.PORT}`);
 app.listen(process.env.PORT);
