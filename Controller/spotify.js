@@ -31,7 +31,7 @@ const scopes = [
 
   var client_id = '864ee56edc404d7a830dbe880b1370ce';
   var client_secret = '5437bbfcf66147e6b1a453bf75f77833';
-  var redirect_uri = 'http://localhost:8888/callback';
+  var redirect_uri = 'http://localhost:3000/dashboard/applied-proxy';
 
   var spotifyApi = new SpotifyWebApi({
     clientId: client_id,
@@ -41,21 +41,30 @@ const scopes = [
 
 
     export async function login(req, res){
-    res.redirect(spotifyApi.createAuthorizeURL(scopes));
+    res.send(spotifyApi.createAuthorizeURL(scopes));
+     
     };
 
 
     export async function callback(req, res){
-    const error = req.query.error;
-    const code = req.query.code;
-    const state = req.query.state;
+    // const error = req.query.error;
+    console.log(req.query.code);
+     const code = req.query.code.slice(6);;
+    // res.send("sdS"S)
+    // const state = req.query.state;
   
-    if (error) {
-      console.error('Callback Error:', error);
-      res.send(`Callback Error: ${error}`);
-      return;
-    }
+    // if (error) {
+    //   console.error('Callback Error:', error);
+    //   res.send(`Callback Error: ${error}`);
+    //   return;
+    // }
   
+
+
+
+
+
+
     spotifyApi
       .authorizationCodeGrant(code)
       .then(data => {

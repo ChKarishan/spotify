@@ -6,6 +6,8 @@ import path from "path"
 import authRoutes from './routes/auth.js'
 import spotifyRoutes from "./routes/spotify.js";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
+
 
 import { fileURLToPath } from "url";
 
@@ -364,5 +366,20 @@ app.use(express.static(__dirname + '/public'))
 //     }
 //   });
 
-console.log(`Listening on : ${process.env.PORT}`);
-app.listen(process.env.PORT);
+/* MONGOOSE SETUP */
+const PORT = process.env.PORT || 6001;
+mongoose.connect(process.env.MONGO_URL, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+}).then(() => {
+    app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+    console.log("mongo db connected")
+
+    /* Add data one time  (don't uncomment below code) */
+    // User.insertMany(userData);
+    // Sale.insertMany(saleData);
+
+}).catch((error) => console.log(`${error} did not conenct`));
+
+// console.log(`Listening on : ${process.env.PORT}`);
+// app.listen(process.env.PORT);
