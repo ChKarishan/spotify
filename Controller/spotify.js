@@ -146,18 +146,19 @@ const scopes = [
     const userName = me.body.id;
     console.log(userName);
     console.log(access_token);
+    // access_token = req.query.access_token;
     spotifyApi.setAccessToken(access_token);
     (async () => {
 
-        var ret_playlist = '';
+        var ret_playlist = [];
         const data = await spotifyApi.getUserPlaylists(userName)
         console.log("---------------+++++++++++++++++++++++++")
-        for (let playlist of data.body.items) {
-            console.log(playlist.name + " " + playlist.id)
-            ret_playlist = ret_playlist + playlist.name + " " + playlist.id + "........";
-        }
+        // for (let playlist of data.body.items) {
+        //     console.log(playlist.name + " " + playlist.id)
+        //     ret_playlist = ret_playlist + playlist.name + " " + playlist.id + "........";
+        // }
         // playlists = data.body.items;
-        res.json(ret_playlist);
+        res.json(data.body.items);
 
       })().catch(e => {
 
@@ -204,23 +205,26 @@ const scopes = [
 
    export async function addTracksToPlaylist(req, res){
 
-    console.log(req);
+    console.log("bhai g")
+    console.log(req.body);
     console.log(access_token);
     spotifyApi.setAccessToken(access_token);
-    (async () => {
+    try{
         console.log(req.body);
         const {playlistId, trackId} = req.body;
         const trackInfo = await spotifyApi.getTrack(trackId);
+        const trackName = trackInfo.body.name;
         const trackUri = trackInfo.body.uri;
 
-       const data = spotifyApi.addTracksToPlaylist(playlistId, [trackUri]);
-       res.json(data);
+       const data = await spotifyApi.addTracksToPlaylist(playlistId, [trackUri]);
+       console.log('return', trackInfo);
+       res.json(trackName);
 
-    })().catch(e => {
+    }catch(error){
 
-        console.error(e);
+        console.error(error);
 
-      });
+      }
     };
 
 
