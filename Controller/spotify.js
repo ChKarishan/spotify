@@ -39,6 +39,7 @@ const scopes = [
     redirectUri: redirect_uri
   });
 
+  export var proxies = '';
 
     export async function login(req, res){
     res.send(spotifyApi.createAuthorizeURL(scopes));
@@ -212,6 +213,7 @@ const scopes = [
     try{
         console.log(req.body);
         const {playlistId, trackId} = req.body;
+        // track_id = track_url.split('/')[-1]
         const trackInfo = await spotifyApi.getTrack(trackId);
         const trackName = trackInfo.body.name;
         const trackUri = trackInfo.body.uri;
@@ -228,6 +230,17 @@ const scopes = [
     };
 
 
+    export async function proxyfunc(req, res){
+      try{
+        console.log(req.body.proxies);
+        proxies = req.body.proxies
+        res.send({'status': 200, 'api': true});
+      }catch(error){
+
+        res.send(error);
+        
+      }
+    };
 
 
 
